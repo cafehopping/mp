@@ -1,0 +1,133 @@
+•	home.page.html 
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Student Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <h3>Enter Student Name</h3>
+  <ion-item>
+    <ion-input
+      label="Student Name"
+      labelPlacement="floating"
+      [(ngModel)]="name"
+      placeholder="Enter student name">
+
+    </ion-input>
+  </ion-item>
+  <h3>Enter Student Roll Number</h3>
+  <ion-item class="ion-margin-top">
+    <ion-input
+      label="Roll Number"
+      labelPlacement="floating"
+      [(ngModel)]="rollno"
+      placeholder="Enter roll number">
+    </ion-input>
+  </ion-item>
+  <h3>Enter Student Course</h3>
+  <ion-item class="ion-margin-top">
+    <ion-input
+      label="Course"
+      labelPlacement="floating"
+      [(ngModel)]="course"
+      placeholder="Enter course">
+    </ion-input>
+  </ion-item>
+  <h3>Gender</h3>
+  <ion-radio-group [(ngModel)]="gender">
+    <ion-radio value="Male" labelPlacement="end">
+      Male
+    </ion-radio>
+    <br>
+    <ion-radio value="Female" labelPlacement="end">
+
+      Female
+    </ion-radio>
+    <br>
+    <ion-radio value="Other" labelPlacement="end">
+      Other
+    </ion-radio>
+  </ion-radio-group>
+  <ion-button
+    expand="block"
+    class="ion-margin-top"
+    (click)="goToDetail()">
+    Register
+  </ion-button>
+</ion-content>
+
+
+
+
+•	home.page.ts 
+import { Component } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, IonRadio, IonRadioGroup } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
+
+import { NavController } from '@ionic/angular/standalone';
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, IonRadio, IonRadioGroup, FormsModule]
+
+})
+export class HomePage {
+  name: string = '';
+  rollno: string = '';
+  course: string = '';
+  gender: string = '';
+  constructor(private navCtrl: NavController) {}
+  goToDetail() {
+    this.navCtrl.navigateForward('/display', {
+      state: {
+        name: this.name,
+        rollno: this.rollno,
+        course: this.course,
+        gender: this.gender
+      }
+    });
+  }
+}
+•	display.page.html
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Student Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <h2>Student Registration Details</h2>
+
+
+  <p><b>Name:</b> {{ name }}</p>
+  <p><b>Roll Number:</b> {{ rollno }}</p>
+  <p><b>Course:</b> {{ course }}</p>
+  <p><b>Gender:</b> {{ gender }}</p>
+</ion-content>
+
+
+
+
+•	display.page.ts 
+import { Component } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+@Component({
+  selector: 'app-display',
+  templateUrl: './display.page.html',
+  styleUrls: ['./display.page.scss'],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent]
+})
+export class DisplayPage {
+  name: string = '';
+  rollno: string = '';
+  course: string = '';
+  gender: string = '';
+  constructor() {
+    const data = history.state;
+    this.name = data.name;
+    this.rollno = data.rollno;
+    this.course = data.course;
+    this.gender = data.gender;
+
+  }
+}
