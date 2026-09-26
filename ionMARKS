@@ -1,0 +1,153 @@
+•	home.page.html
+<ion-header> 
+  <ion-toolbar color="primary"> 
+    <ion-title>Student Result</ion-title> 
+  </ion-toolbar> 
+</ion-header> 
+<ion-content class="ion-padding"> 
+  <h4>Enter your Name</h4> 
+  <ion-item>     <ion-input 
+      label="Student Name"       labelPlacement="floating"       [(ngModel)]="name" 
+      placeholder="Enter student name"> 
+    </ion-input> 
+  </ion-item> 
+  <h4>Enter Marks of Enterprise Java</h4> 
+  <ion-item>     <ion-input 
+      label="Enterprise Java Marks"       labelPlacement="floating"       type="number" 
+      [(ngModel)]="marks1"> 
+    </ion-input> 
+  </ion-item> 
+<h4>Enter Marks of Cloud Computing Architecture</h4> 
+  <ion-item>     <ion-input 
+      label="Cloud Computing Architecture Marks" 
+      labelPlacement="floating"       type="number"       [(ngModel)]="marks2"> 
+    </ion-input> 
+  </ion-item> 
+  <h4>Enter Marks of Cryptography & Information Security</h4> 
+  <ion-item>     <ion-input 
+      label="Cryptography & Information Security Marks" 
+      labelPlacement="floating"       type="number"       [(ngModel)]="marks3"> 
+    </ion-input> 
+  </ion-item> 
+  <h4>Enter Marks of Mobile Programming</h4> 
+  <ion-item>     <ion-input 
+      label="Mobile Programming Marks"       labelPlacement="floating"       type="number"       [(ngModel)]="marks4"> 
+    </ion-input> 
+  </ion-item> 
+  <h4>Enter Marks of Virtual Reality</h4> 
+  <ion-item>     <ion-input       label="Virtual Reality Marks"       labelPlacement="floating"       type="number"       [(ngModel)]="marks5"> 
+    </ion-input> 
+  </ion-item>   <ion-button     expand="block"     class="ion-margin-top"     (click)="calculateResult()"> 
+    Calculate Result 
+  </ion-button> 
+</ion-content>
+
+import { Component } from '@angular/core'; 
+import 	{ IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton} 	from '@ionic/angular/standalone'; 
+import { FormsModule } from '@angular/forms'; 
+import { NavController } from '@ionic/angular/standalone'; 
+@Component({ 
+  selector: 'app-home',   templateUrl: 'home.page.html',   styleUrls: ['home.page.scss'], 
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, FormsModule] 
+}) 
+export class HomePage {   name: string = '';   marks1: number | null = null;   marks2: number | null = null;   marks3: number | null = null;   marks4: number | null = null;   marks5: number | null = null; 
+  constructor(private navCtrl: NavController) {}   calculateResult() { 
+    let total = 
+      Number(this.marks1) + 
+      Number(this.marks2) + 
+      Number(this.marks3) + 
+      Number(this.marks4) +       Number(this.marks5); 
+    let percentage = (total / 500) * 100; 
+    let result: string;     let grade: string; 
+    if (Number(this.marks1) < 35 || Number(this.marks2) < 35 || Number(this.marks3) < 35 || Number(this.marks4) 
+< 35 || Number(this.marks5) < 35) { 
+      result = 'FAIL';       grade = 'F';     } else {       result = 'PASS';       if (percentage >= 75) { 
+        grade = 'A'; 
+      } 
+      else if (percentage >= 60) { 
+        grade = 'B'; 
+      } 
+      else if (percentage >= 50) { 
+        grade = 'C'; 
+      } 
+      else {         grade = 'D'; 
+      } 
+    } 
+    this.navCtrl.navigateForward('/display', {  
+    state: {         
+    name: this.name,         
+    marks1 this.marks1,         
+    marks2: this.marks2,         
+    marks3: this.marks3,         
+    marks4: this.marks4,         
+    marks5: this.marks5,         
+    total: total,         
+    percentage: percentage, 
+    result: result, 
+    grade: grade 
+    } 
+   }); 
+} } 
+
+
+
+
+•	display.page.html 
+<ion-header> 
+  <ion-toolbar color="primary"> 
+    <ion-title>Student Result</ion-title> 
+  </ion-toolbar> 
+</ion-header> 
+<ion-content class="ion-padding"> 
+  <h2 class="ion-text-center">RESULT</h2> 
+  <p><b>Student Name:</b> {{ name }}</p> 
+  <hr> 
+  <p><b>Enterprise Java:</b> {{ marks1 }}/100</p> 
+  <p><b>Cloud Computing Architecture:</b> {{ marks2 }}/100</p> 
+  <p><b>Cryptography & Information Security:</b> {{ marks3 }}/100</p> 
+  <p><b>Mobile Programming:</b> {{ marks4 }}/100</p> 
+  <p><b>Virtual Reality:</b> {{ marks5 }}/100</p> 
+  <hr> 
+  <p><b>Total Marks:</b> {{ total }} / 500</p> 
+  <p><b>Percentage:</b> {{ percentage }}%</p> 
+  <p><b>Result:</b> {{ result }}</p> 
+  <p><b>Grade:</b> {{ grade }}</p> 
+</ion-content> 
+
+
+
+
+•	display.page.ts
+import { Component } from '@angular/core'; 
+import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone'; 
+@Component({ 
+  selector: 'app-display',   
+  templateUrl: './display.page.html',   
+  styleUrls: ['./display.page.scss'], 
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent] 
+}) 
+export class DisplayPage { 
+  name: string = '';   
+  marks1: number = 0;   
+  marks2: number = 0;   
+  marks3: number = 0;   
+  marks4: number = 0;   
+  marks5: number = 0;   
+  total: number = 0;   
+  percentage: number = 0;   
+  result: string = '';   
+  grade: string = '';   
+  constructor() {     
+    const data = history.state;     
+    this.name = data.name;     
+    this.marks1 = data.marks1;     
+    this.marks2 = data.marks2;     
+    this.marks3 = data.marks3;     
+    this.marks4 = data.marks4;     
+    this.marks5 = data.marks5;     
+    this.total = data.total; 
+    this.percentage = data.percentage; 
+    this.result = data.result;    
+    this.grade = data.grade; 
+  } 
+} 
