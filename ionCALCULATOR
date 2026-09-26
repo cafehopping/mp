@@ -1,0 +1,110 @@
+•	home.page.html
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Calculator</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <h3>Enter the First Number</h3>
+  <ion-item>
+    <ion-input
+      label="First Number"
+      labelPlacement="floating"
+      type="number"
+      [(ngModel)]="number1"
+      placeholder="Enter first number">
+    </ion-input>
+
+  </ion-item>
+  <h3>Enter the Second Number</h3>
+  <ion-item>
+    <ion-input
+      label="Second Number"
+      labelPlacement="floating"
+      
+type="number"
+      [(ngModel)]="number2"
+
+      placeholder="Enter second number">
+    </ion-input>
+  </ion-item>
+  <h3>Select Operation</h3>
+  <ion-radio-group [(ngModel)]="operation">
+  <ion-radio value="add" labelPlacement="end">
+    Addition (+)
+  </ion-radio><br>
+  <ion-radio value="subtract" labelPlacement="end">
+    Subtraction (-)
+  </ion-radio><br>
+  <ion-radio value="multiply" labelPlacement="end">
+    Multiplication (×)
+  </ion-radio><br>
+  <ion-radio value="divide" labelPlacement="end">
+    Division (÷)
+
+
+  </ion-radio>
+
+</ion-radio-group>
+
+  <ion-button
+    expand="block"
+    class="ion-margin-top"
+    (click)="calculate()"
+    [disabled]="number1 === null || number2 === null || operation === null">Calculate</ion-button>
+  <ion-card *ngIf="result !== null">
+    <ion-card-content class="ion-text-center">
+      <h2>Result</h2>
+
+      <h1>{{ result }}</h1>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+
+
+•	home.page.ts
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, IonCard, IonCardContent, IonRadio, IonRadioGroup } from '@ionic/angular/standalone';
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+
+  standalone: true,
+
+  imports: [CommonModule, FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, IonCard, IonCardContent, IonRadio, IonRadioGroup]
+
+})
+
+export class HomePage {
+
+  number1: number | null = null;
+  number2: number | null = null;
+  operation: string | null = null;
+  result: number | null = null;
+  calculate() {
+    if (this.number1 === null || this.number2 === null) {
+      return;
+    }
+    if (this.operation === 'add') {
+      this.result = this.number1 + this.number2;
+    }
+    else if (this.operation === 'subtract') {
+      this.result = this.number1 - this.number2;
+    }
+    else if (this.operation === 'multiply') {
+      this.result = this.number1 * this.number2;
+    }
+    else if (this.operation === 'divide') {
+
+
+      this.result = this.number1 / this.number2;
+    }
+  }
+
+}
