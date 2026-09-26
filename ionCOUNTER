@@ -1,0 +1,55 @@
+•	home.page.html
+<ion-header [translucent]="true">
+<ion-toolbar color="primary">
+<ion-title>Counter App</ion-title>
+</ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+<ion-card class="ion-text-center ion-padding">
+<ion-card-header>
+<ion-card-title>Current Value</ion-card-title>
+</ion-card-header>
+<ion-card-content>
+<h1 style="font-size: 3.5rem; font-weight: bold; margin: 20px 0;"> {{ count }}</h1>
+<div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+<ion-button color="success" (click)="increment()">Increment
+</ion-button>
+ <ion-button color="danger" (click)="decrement()">
+Decrement
+</ion-button>
+<ion-button color="medium" (click)="reset()">
+Reset
+</ion-button>
+</div>
+</ion-card-content>
+ </ion-card>
+</ion-content>
+
+
+
+
+
+
+•	home.page.ts
+import { Component } from '@angular/core';
+import {IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton } from '@ionic/angular/standalone';
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+  standalone: true,
+  imports: [ IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
+  IonCardContent, IonButton ]
+})
+export class HomePage {
+  count: number = 0;
+  increment(): void {
+    this.count++;
+  }
+  decrement(): void {
+    this.count--;
+  }
+  reset(): void {
+    this.count = 0;
+  }
+}
