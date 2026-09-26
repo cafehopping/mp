@@ -1,0 +1,114 @@
+-home.page.html
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+     User Registration
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registrationForm" (ngSubmit)="submitForm()">
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input formControlName="username"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
+      Username must be at least 3 characters
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+      Enter a valid email
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+      Password must be at least 6 characters
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Confirm Password</ion-label>
+      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="passwordMismatch && registrationForm.get('confirmPassword')?.touched">
+      Passwords do not match
+    </ion-note>
+
+    <ion-button expand="block" type="submit" [disabled]="registrationForm.invalid || passwordMismatch">
+      Register
+    </ion-button>
+  </form>
+</ion-content>
+
+
+
+
+-home.page.ts
+import { Component } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonLabel,
+  IonNote,
+} from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+
+@Component
+({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+  standalone:true,	
+imports: [
+  CommonModule,
+  ReactiveFormsModule,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonLabel,
+  IonNote,
+],
+})
+export class HomePage {
+ 
+registrationForm = this.fb.group({
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', [Validators.required]]
+  });
+  constructor(private fb: FormBuilder) {}
+
+ submitForm() {
+    if (this.registrationForm.valid) {
+      console.log('Form Submitted:', this.registrationForm.value);
+    } else {
+      console.log('Form Invalid');
+    }
+  }
+
+  get passwordMismatch(): boolean {
+    return (
+      this.registrationForm.value.password !==
+      this.registrationForm.value.confirmPassword
+    );
+  }
+
+}
