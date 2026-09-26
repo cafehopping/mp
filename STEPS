@@ -1,0 +1,27 @@
+IONIC
+
+D:/C: mein ek folder banana suppose areeba002
+
+Open CMD in D:/C: drive not in areeba002 in the drive 
+
+Step 1:
+node -v
+npm -v
+
+Step 2:
+npm install -g @ionic/cli
+ionic -v
+
+D:/C: mein ek folder banana suppose areeba002
+
+Step 3:
+ionic start areeba002 --type=angular"
+Select blank
+Select Standalone
+Create account - No
+
+Isse folder banega VS mein open karna aur code likhna phir ye commands 
+
+Step 4:
+cd areeba002
+ionic serve
