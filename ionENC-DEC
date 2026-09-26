@@ -1,0 +1,139 @@
+-home.page.html
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Encrypt / Decrypt</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Encryption & Decryption</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-textarea
+          label="Enter Text"
+          labelPlacement="floating"
+          [(ngModel)]="text"
+          placeholder="Enter text">
+        </ion-textarea>
+      </ion-item>
+      <ion-item class="ion-margin-top">
+        <ion-input
+          label="Secret Key"
+          labelPlacement="floating"
+          [(ngModel)]="key"
+          placeholder="Enter secret key">
+        </ion-input>
+      </ion-item>
+      <ion-button expand="block" class="ion-margin-top" (click)="encrypt()">
+        Encrypt
+      </ion-button>
+      <ion-button expand="block" color="secondary" (click)="decrypt()">
+        Decrypt
+      </ion-button>
+      <ion-button expand="block" color="medium" (click)="clearAll()">
+        Clear
+      </ion-button>
+      <ion-item class="ion-margin-top">
+        <ion-textarea
+          label="Result"
+          labelPlacement="floating"
+          [(ngModel)]="result"
+          readonly>
+        </ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+
+
+
+-home.page.ts
+import { Component } from 
+'@angular/core';
+import { FormsModule } from 
+'@angular/forms';
+import { 
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonContent, 
+  IonCard, 
+  IonCardHeader, 
+  IonCardTitle, 
+  IonCardContent, 
+  IonItem, 
+  IonInput, 
+  IonTextarea, 
+  IonButton } from '@ionic/angular';
+@Component({
+  selector: 'app-home', 
+  templateUrl: 'home.page.html', 
+  styleUrls: ['home.page.scss'], 
+  standalone:true, 
+  imports: [ 
+    FormsModule, 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent, 
+    IonCard, 
+    IonCardHeader, 
+    IonCardTitle, 
+    IonCardContent, 
+    IonItem, 
+    IonInput, 
+    IonTextarea, 
+    IonButton 
+  ] 
+})
+export class HomePage {
+  text: string = '';
+  key: string = '';
+  result: string = '';
+  encrypt() {
+    if (!this.text || !this.key) {
+      this.result = 'Please enter text and key';
+      return;
+    }
+    this.result = this.processText(this.text, this.key, true);
+  }
+  decrypt() {
+    if (!this.text || !this.key) {
+      this.result = 'Please enter text and key';
+      return;
+    }
+    this.result = this.processText(this.text, this.key, false);
+  }
+  processText(input: string, key: string, isEncrypt: boolean): string {
+    let output = '';
+    const shift = key.length;
+    for (let i = 0; i < input.length; i++) {
+      let ch = input.charAt(i);
+      if (this.isAlpha(ch)) {
+        let code = ch.charCodeAt(0);
+        if (isEncrypt) {
+          code = code + shift;
+        } else {
+          code = code - shift;
+        }
+        output += String.fromCharCode(code);
+      } else {
+        output += ch;
+      }
+    }
+    return output;
+  }
+  isAlpha(ch: string): boolean {
+    return /^[a-zA-Z]$/.test(ch);
+  }
+  clearAll() {
+    this.text = '';
+    this.key = '';
+    this.result = '';
+  }
+}
